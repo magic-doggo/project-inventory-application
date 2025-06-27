@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS lol_items (
   name VARCHAR ( 255 ),
   price INT,
   image_url VARCHAR (255),
-  normalStoreItemBool BOOL
+  normalStoreItemBool BOOLEAN
 );
 
 CREATE TABLE IF NOT EXISTS item_components (
@@ -61,7 +61,7 @@ async function main() {
   let items = await getItems();
   for (let item of items) {
     await client.query(
-      "INSERT INTO lol_items(id, name, price, image_url, normalStoreItemBool) VALUES($1, $2, $3, $4, $5)", [item.id, item.name, item.price, item.image, item.normalStoreItemBool]
+      "INSERT INTO lol_items(id, name, price, image_url, normalStoreItemBool) VALUES($1, $2, $3, $4, $5)", [item.id, item.name, item.price, item.image, item.displayItemInStore]
     );
   }
 
@@ -89,3 +89,5 @@ module.exports = { result } //what did I export this for?
 
 //problem is id 7176 forever forward is built from 3013 synchronized souls which is not purchasable.so when we put 7176 in item_components, it returns an error because it has 3013 as a component, and this id does not exist in lol_items
 //item_tag values:  Armor,CooldownReduction,Stealth,SpellDamage,Active,CriticalStrike,SpellVamp,Jungle,MagicPenetration,ArmorPenetration,Vision,GoldPer,Tenacity,Boots,Aura
+//maybe create another table complete_items, that only contains items which do not have "into" in the api?
+//possible filters: select price range (maybe even with a mouse draggable range bar), tags, maybe complete items/components/base items
