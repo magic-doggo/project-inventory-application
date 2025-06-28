@@ -4,12 +4,21 @@
    <!-- <link rel="stylesheet" href="/styles.css"> -->
   </head>
   <body>
-    <ul>
-        <% for (let i = 0; i < items.length; i++) { %>
-            <ul>
-                <li><%= items[i].name %></li>
-            </ul>
-        <% } %>
-    </ul>
+    <%- include("partials/navbar") %>
+    <div>
+      <div>Items:</div>
+      <button>Create an Item</button>
+    </div>
+    <div class="items-container">
+      <ul>
+          <% for (let i = 0; i < items.length; i++) { %>
+              <div>
+                  <img src="<%= items[i].image_url %>" alt="">
+                  <div><%= items[i].name %></div>
+                  <div><%= items[i].price %> gold</div>
+              </div>
+          <% } %>
+      </ul>
+    </div>
   </body>
 </html>
