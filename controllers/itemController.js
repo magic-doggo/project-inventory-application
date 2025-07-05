@@ -8,7 +8,7 @@ async function getItems(req, res) {
     let items;
     if (!tag) {
         items = await db.getAllItems();
-    } else items = await db.getFilteredItems(tag);
+    } else items = await db.getFilteredItems(tag, sort);
     console.log(tag)
     // const items2 = db.getFilteredItems(filters);
     // let items2 = [];
