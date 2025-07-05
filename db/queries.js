@@ -1,7 +1,7 @@
 const pool = require("./pool");
 
-async function getAllItems() {
-    const {rows} = await pool.query("SELECT * FROM lol_items where normalStoreItemBool = True LIMIT 10");
+async function getAllItems(sort = 'ASC') {
+    const {rows} = await pool.query(`SELECT * FROM lol_items where normalStoreItemBool = True ORDER BY price ${sort === 'DESC' ? 'DESC' : 'ASC'} LIMIT 10`);
     return rows;
 }
 
