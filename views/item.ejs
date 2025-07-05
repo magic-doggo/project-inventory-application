@@ -14,7 +14,7 @@
       <span>Tags: </span>
       <% if (tags) {%>
         <% for (let tag of tags) { %>
-          <a href=""><%= tag %></a>
+          <a href="../?tag=<%= tag %>"><%= tag %></a>
         <% }; %>
       <% } %>
     </div>
