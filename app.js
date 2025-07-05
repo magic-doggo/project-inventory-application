@@ -9,8 +9,10 @@ app.use(express.static(assetsPath));
 
 
 const indexRouter = require("./routes/indexRouter");
+const itemRouter = require("./routes/itemRouter");
 
 app.use("/", indexRouter);
+app.use("/item", itemRouter)
 
 const PORT = 3000;
 app.listen(PORT, () => {

@@ -5,18 +5,28 @@ async function getAllItems(sort = 'ASC') {
     return rows;
 }
 
-async function getFilteredItems(filter, sort = 'ASC') {
+async function getFilteredItems(tagFilter, sort = 'ASC') {
     const {rows} = await pool.query
-    (`SELECT id, name, item_tag, price, image_url
+    (`SELECT id, name, price, image_url, item_tag
     FROM lol_items 
     LEFT JOIN item_tags on id=item_id 
     WHERE normalStoreItemBool = True
     AND item_tag= $1
-    ORDER BY price ${sort === 'DESC' ? 'DESC' : 'ASC'} LIMIT 10`, [filter])
+    ORDER BY price ${sort === 'DESC' ? 'DESC' : 'ASC'} LIMIT 10`, [tagFilter])
     return rows;
 }
 
+async function getItem(itemId) {
+    const {rows} = await pool.query(`SELECT id, name, price, image_url, item_tag
+    FROM lol_items
+    LEFT JOIN item_tags on id = item_tags.item_id
+    WHERE id = $1`, [itemId])
+    return rows;
+}
+
+        // LEFT JOIN rows_components on id = item_components.item_id
 module.exports = {
     getAllItems,
-    getFilteredItems
+    getFilteredItems,
+    getItem
 }

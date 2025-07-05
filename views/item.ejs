@@ -1,0 +1,26 @@
+<html>
+
+<head>
+   <title><%= item.name %></title>
+  <!-- <link rel="stylesheet" href="/styles.css"> -->
+</head>
+
+<body>
+  <%- include("partials/navbar") %>
+    <div>
+      <img src="<%= item.image_url %>" alt="">
+      <div><%= item.name %></div>
+      <div><%= item.price %> gold</div>
+      <span>Tags: </span>
+      <% if (tags) {%>
+        <% for (let tag of tags) { %>
+          <a href=""><%= tag %></a>
+        <% }; %>
+      <% } %>
+    </div>
+    <script>
+
+    </script>
+</body>
+
+</html>
