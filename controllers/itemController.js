@@ -1,27 +1,31 @@
 const db = require("../db/queries");
 
 async function getItems(req, res) {
-    //maybe if tags/some other filters exist, items = not get all items but some other filter
-    const items = await db.getAllItems();
-    let selectedTag = req.query.tag;
-    let selectedPriceSort = req.query.priceSort;
+    // const filtersObject = req.query;
+    const tag = req.query.tag;
+    let sort = req.query.priceSort;
+    // const filtersArray = Object.values(filtersObject);
+    let items;
+    if (!tag) {
+        items = await db.getAllItems();
+    } else items = await db.getFilteredItems(tag);
+    console.log(tag)
+    // const items2 = db.getFilteredItems(filters);
     // let items2 = [];
     // for (let i = 0; i < 2; i++) {
     //     items2.push(items[i])
     // } //if want to show less items?
-    console.log(items);
+    // console.log(items);
+    // console.log(filtersArray);
     res.render("index", {
         title: "index",
         items: items,
-        selectedTag: selectedTag,
-        selectedPriceSort: selectedPriceSort
+        selectedTag: tag,
+        selectedPriceSort: sort
     })
 }
 
-function filterByTag(tag) {
-
-}
 
 module.exports = {
-    getItems
+    getItems,
 }

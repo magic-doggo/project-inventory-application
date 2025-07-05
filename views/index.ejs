@@ -26,9 +26,9 @@
 
       <form action="/" method="get" id="priceSortForm"> -->
         <p>Sort by price:</p>
-        <input type="radio" id="Ascending" name="priceSort" value="Ascending" <%= selectedPriceSort ==='Ascending' ? 'checked' : '' %> > 
+        <input type="radio" id="Ascending" name="priceSort" value="ASC" <%= selectedPriceSort ==='ASC' ? 'checked' : '' %> > 
         <label for="Ascending">Ascending</label>
-        <input type="radio" id="Descending" name="priceSort" value="Descending" <%= selectedPriceSort ==='Descending' ? 'checked' : '' %>>
+        <input type="radio" id="Descending" name="priceSort" value="DESC" <%= selectedPriceSort ==='DESC' ? 'checked' : '' %>>
         <label for="Descending">Descending</label>
       </form>
       <!-- make filters: for tags and price asc/desc. maybe for final items or not

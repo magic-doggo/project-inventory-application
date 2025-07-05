@@ -5,6 +5,16 @@ async function getAllItems() {
     return rows;
 }
 
+async function getFilteredItems(filter) {
+    const {rows} = await pool.query
+    (`SELECT id, name, item_tag, price, image_url
+    FROM lol_items 
+    LEFT JOIN item_tags on id=item_id 
+    WHERE normalStoreItemBool = True
+    AND item_tag= $1 LIMIT 10`, [filter])
+    return rows;
+}
+
 //get items and their tag
 // SELECT id, name, item_tag
 // FROM lol_items
@@ -12,8 +22,9 @@ async function getAllItems() {
 // ON id = item_id
 // WHERE normalStoreItemBool = True;
 
-
+// SELECT id, name, item_tag FROM lol_items LEFT JOIN item_tags on id=item_id WHERE normalStoreItemBool = True AND item_tag=filter[0]
 
 module.exports = {
-    getAllItems
+    getAllItems,
+    getFilteredItems
 }
