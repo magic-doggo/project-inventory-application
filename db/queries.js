@@ -17,10 +17,24 @@ async function getFilteredItems(tagFilter, sort = 'ASC') {
 }
 
 async function getItem(itemId) {
-    const {rows} = await pool.query(`SELECT id, name, price, image_url, item_tag
+    const {rows} = await pool.query(`SELECT id, name, price, image_url
     FROM lol_items
-    LEFT JOIN item_tags on id = item_tags.item_id
     WHERE id = $1`, [itemId])
+    return rows;
+}
+    // LEFT JOIN item_tags on id = item_tags.item_id
+
+async function getItemTags(itemId) {
+    const {rows} = await pool.query(`SELECT item_tag
+    FROM item_tags
+    WHERE item_id = $1`, [itemId])
+    return rows
+}
+
+async function getItemComponents(itemId) {
+    const {rows} = await pool.query(`SELECT item_component_id
+    FROM item_components 
+    WHERE item_id = $1`, [itemId])
     return rows;
 }
 
@@ -28,5 +42,7 @@ async function getItem(itemId) {
 module.exports = {
     getAllItems,
     getFilteredItems,
-    getItem
+    getItem,
+    getItemComponents,
+    getItemTags
 }

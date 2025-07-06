@@ -7,7 +7,6 @@ async function getItems(req, res) {
     if (!tag) {
         items = await db.getAllItems(sort);
     } else items = await db.getFilteredItems(tag, sort);
-    console.log(items)
     res.render("index", {
         title: "index",
         items: items,
@@ -18,17 +17,19 @@ async function getItems(req, res) {
 
 async function renderItemGet(req, res) {
     const itemId = req.params.itemId;
-    console.log(itemId, "itemId")
     const item = await db.getItem(itemId);
-    console.log(item);
-    let itemTags = [];
-    for (entry of item) {
-        itemTags.push(entry.item_tag)
+    const itemComponentsIds = await db.getItemComponents(itemId);
+    let tags = await db.getItemTags(itemId)
+    let componentItemsDetails = []
+    for (let id of itemComponentsIds) {
+        let itemDetails = await db.getItem(id.item_component_id)
+        componentItemsDetails.push(...itemDetails)
     }
-    console.log(itemTags)
+    console.log(componentItemsDetails)
     res.render("item", {
         item: item[0],
-        tags: itemTags
+        tags: tags,
+        components: componentItemsDetails
     })
 }
 
