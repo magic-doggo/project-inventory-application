@@ -11,7 +11,8 @@ async function getItems(req, res) {
         title: "index",
         items: items,
         selectedTag: tag,
-        selectedPriceSort: sort
+        selectedPriceSort: sort,
+        tags: db.mainTags
     })
 }
 

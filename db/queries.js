@@ -38,11 +38,16 @@ async function getItemComponents(itemId) {
     return rows;
 }
 
-        // LEFT JOIN rows_components on id = item_components.item_id
+//there are about 20 tags, I do not want all of them to appear on the index page for filtering
+//mainTags will appear on main page. rest of tags will still be displayed under items that use them
+//SpellBlock more up to date than magicResist in api
+let mainTags = ["Armor", "SpellBlock", "Damage", "SpellDamage", "AttackSpeed", "AbilityHaste", "CriticalStrike", "ArmorPenetration", "MagicPenetration"]
+
 module.exports = {
     getAllItems,
     getFilteredItems,
     getItem,
     getItemComponents,
-    getItemTags
+    getItemTags,
+    mainTags
 }

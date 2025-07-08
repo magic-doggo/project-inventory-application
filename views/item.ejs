@@ -22,7 +22,7 @@
 
       <div>
         <span>Item components: </span>
-        <% if (components) {%>
+        <% if (components && components.length > 0) {%>
           <% for (let component of components) { %>
              <div>
               <a href="../item/<%= component.id %>"><%= component.name %></a>
@@ -30,6 +30,8 @@
               <img src="<%= component.image_url %>" alt="">
              </div>
           <% }; %>
+        <% } else { %>
+          <div> This is a base item, there are no smaller components.</div>
         <% } %>
       </div>
     </div>
