@@ -34,7 +34,23 @@ async function renderItemGet(req, res) {
     })
 }
 
+async function renderCreateNewItem(req, res) {
+    res.render("createNewItem", {
+        title: "Create New Item",
+        tags: db.mainTags
+    })
+}
+
+async function searchItemComponents(req, res) {
+    const query = req.query.component.toLowerCase();
+    console.log(query);
+    const result = await db.getItemsByName(query);
+    res.json(result)
+}
+
 module.exports = {
     getItems,
-    renderItemGet
+    renderItemGet,
+    renderCreateNewItem,
+    searchItemComponents
 }

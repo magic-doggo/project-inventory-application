@@ -38,6 +38,16 @@ async function getItemComponents(itemId) {
     return rows;
 }
 
+// drop image_url if not displaying it in dropdown
+async function getItemsByName(name){
+    const {rows} = await pool.query(`SELECT id, name, image_url
+    FROM lol_items
+    WHERE normalStoreItemBool = TRUE 
+    AND name ILIKE $1`, [`%${name}%`])
+    return rows;
+}
+
+
 //there are about 20 tags, I do not want all of them to appear on the index page for filtering
 //mainTags will appear on main page. rest of tags will still be displayed under items that use them
 //SpellBlock more up to date than magicResist in api
@@ -49,5 +59,6 @@ module.exports = {
     getItem,
     getItemComponents,
     getItemTags,
-    mainTags
+    mainTags,
+    getItemsByName
 }

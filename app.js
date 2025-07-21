@@ -1,6 +1,7 @@
 const express = require("express");
 const path = require("node:path");
 const app = express();
+
 require('dotenv').config();
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
@@ -10,9 +11,13 @@ app.use(express.static(assetsPath));
 
 const indexRouter = require("./routes/indexRouter");
 const itemRouter = require("./routes/itemRouter");
+const createNewItemRouter = require("./routes/createNewItemRouter");
+const createNewTagRouter = require("./routes/createNewTagRouter");
 
 app.use("/", indexRouter);
-app.use("/item", itemRouter)
+app.use("/item", itemRouter);
+app.use("/createNewItem", createNewItemRouter);
+app.use("/createNewTag", createNewTagRouter);
 
 const PORT = 3000;
 app.listen(PORT, () => {

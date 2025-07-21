@@ -1,0 +1,56 @@
+<html>
+
+<head>
+  <title>
+    <%= title %>
+  </title>
+</head>
+
+<body>
+  <%- include("partials/navbar") %>
+    <div>
+      <div class="form-container">
+        <label for="itemName">Item Name</label>
+        <input type="text" id="itemName" name="itemName">
+        <label for="price">Price</label>
+        <input type="number" id="price" name="price">
+        <label for="image_url" id="image_url" name="image_url">Image url</label>
+        <input type="url">
+        <legend>Item tags</legend>
+        <% tags.forEach(function(tag) { %>
+          <input type="checkbox" id="<%= tag%>" name="tag" value="<%= tag%>">
+          <label for="<%=tag%>">
+            <%= tag %>
+          </label>
+          <% }) %>
+            <label for="item-components">Add item components</label>
+            <input type="search" id="item-components" name="item-components">
+            <!-- item components. maybe search function through db based on name? dropdown results to select? -->
+            <div id="item-components-list"></div>
+      </div>
+    </div>
+   <script>
+    let itemComponentSearch = document.getElementById("item-components");
+    let itemComponentList = document.getElementById(".item-components-list");
+    async function filterComponents(searchText) {
+      const query = itemComponentSearch.value.trim();
+      try {
+        const res = await fetch(`/search?component=${encodeURIComponent(query)}`);
+        const data = await res.json();
+        if (data.length > 0) {
+          data.forEach(item => {
+            console.log(item);
+          });
+        }
+      } catch (error) {
+        console.error("error fetching components:", error);
+      }
+    }
+
+    itemComponentSearch.addEventListener("input", () => filterComponents(itemComponentSearch.value));
+  ;
+</script>
+
+</body>
+
+</html>
