@@ -29,27 +29,45 @@
             <div id="item-components-list"></div>
       </div>
     </div>
-   <script>
-    let itemComponentSearch = document.getElementById("item-components");
-    let itemComponentList = document.getElementById(".item-components-list");
-    async function filterComponents(searchText) {
-      const query = itemComponentSearch.value.trim();
-      try {
-        const res = await fetch(`/search?component=${encodeURIComponent(query)}`);
-        const data = await res.json();
-        if (data.length > 0) {
-          data.forEach(item => {
-            console.log(item);
-          });
+    <script>
+      let itemComponentSearch = document.getElementById("item-components");
+      let itemComponentList = document.getElementById("item-components-list");
+      async function filterComponents(searchText) {
+        const query = itemComponentSearch.value.trim();
+        if (query.length === 0) {
+          itemComponentList.innerHTML = '';
+          itemComponentList.style.display = 'none';
+          return;
         }
-      } catch (error) {
-        console.error("error fetching components:", error);
+        try {
+          const res = await fetch(`/search?component=${encodeURIComponent(query)}`);
+          const data = await res.json();
+          if (data.length > 0) {
+            itemComponentList.innerHTML = '';
+            itemComponentList.style.display = 'block'
+            data.forEach(item => {
+              console.log(item);
+              const itemContainer = document.createElement('div');
+              const itemName = document.createElement('div');
+              const itemIcon = document.createElement('img');
+              itemName.innerHTML = item.name;
+              itemIcon.src = item.image_url;
+              itemComponentList.appendChild(itemContainer);
+              itemContainer.appendChild(itemName);
+              itemContainer.appendChild(itemIcon);
+            });
+          } else {
+            itemComponentList.innerHTML = '';
+            itemComponentList.style.display = 'none'; //not defined?check this
+          }
+        } catch (error) {
+          console.error("error fetching components:", error);
+        }
       }
-    }
 
-    itemComponentSearch.addEventListener("input", () => filterComponents(itemComponentSearch.value));
-  ;
-</script>
+      itemComponentSearch.addEventListener("input", () => filterComponents(itemComponentSearch.value));
+      ;
+    </script>
 
 </body>
 
