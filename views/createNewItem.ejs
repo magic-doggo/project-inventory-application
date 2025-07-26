@@ -14,8 +14,8 @@
         <input type="text" id="itemName" name="itemName">
         <label for="price">Price</label>
         <input type="number" id="price" name="price">
-        <label for="image_url" id="image_url" name="image_url">Image url</label>
-        <input type="url">
+        <label for="image_url">Image url</label>
+        <input type="url" id="image_url" name="image_url">
         <legend>Item tags</legend>
         <% tags.forEach(function(tag) { %>
           <input type="checkbox" id="<%= tag%>" name="tag" value="<%= tag%>">
@@ -27,11 +27,18 @@
             <input type="search" id="item-components" name="item-components">
             <!-- item components. maybe search function through db based on name? dropdown results to select? -->
             <div id="item-components-list"></div>
+            <div>
+              <div>Added Components:</div>
+              <div id="added-components-container">
+              </div>
+            </div>
       </div>
     </div>
     <script>
       let itemComponentSearch = document.getElementById("item-components");
       let itemComponentList = document.getElementById("item-components-list");
+      let addedComponents = document.getElementById("added-components-container");
+      let addedComponentsArray = [];
       async function filterComponents(searchText) {
         const query = itemComponentSearch.value.trim();
         if (query.length === 0) {
@@ -50,15 +57,35 @@
               const itemContainer = document.createElement('div');
               const itemName = document.createElement('div');
               const itemIcon = document.createElement('img');
+              const addComponentButton = document.createElement('button');
               itemName.innerHTML = item.name;
               itemIcon.src = item.image_url;
+              addComponentButton.innerHTML = "Add Component"
               itemComponentList.appendChild(itemContainer);
               itemContainer.appendChild(itemName);
               itemContainer.appendChild(itemIcon);
+              itemContainer.appendChild(addComponentButton);
+              addComponentButton.addEventListener("click", () => {
+                addedComponentsArray.push(item);
+                console.log(addedComponentsArray)
+                addedComponents.innerHTML = "";
+                addedComponentsArray.forEach(component => {
+                  console.log(component.name)
+                  let addedComponentContainer = document.createElement("div");
+                  let addedComponentIcon = document.createElement("img");
+                  let addedComponentName = document.createElement("div");
+                  addedComponents.appendChild(addedComponentContainer);
+                  addedComponentContainer.classList.add("addedComponentContainer");
+                  addedComponentContainer.appendChild(addedComponentIcon);
+                  addedComponentContainer.appendChild(addedComponentName);
+                  addedComponentName.innerHTML = component.name;
+                  addedComponentIcon.src = component.image_url;
+                }) 
+              })
             });
           } else {
             itemComponentList.innerHTML = '';
-            itemComponentList.style.display = 'none'; //not defined?check this
+            itemComponentList.style.display = 'none';
           }
         } catch (error) {
           console.error("error fetching components:", error);
@@ -66,9 +93,11 @@
       }
 
       itemComponentSearch.addEventListener("input", () => filterComponents(itemComponentSearch.value));
-      ;
     </script>
 
 </body>
 
 </html>
+<!-- maybe add frequency limit at which i query db, e.g. only every 0.5/1 second if typing item name in search.
+ and add limit of displayed items -->
+ <!-- add price limit. component items together cannot cost more than finished item price -->
