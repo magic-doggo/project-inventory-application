@@ -60,27 +60,36 @@
               const addComponentButton = document.createElement('button');
               itemName.innerHTML = item.name;
               itemIcon.src = item.image_url;
-              addComponentButton.innerHTML = "Add Component"
+              addComponentButton.innerHTML = "Add Component";
               itemComponentList.appendChild(itemContainer);
               itemContainer.appendChild(itemName);
               itemContainer.appendChild(itemIcon);
               itemContainer.appendChild(addComponentButton);
               addComponentButton.addEventListener("click", () => {
                 addedComponentsArray.push(item);
-                console.log(addedComponentsArray)
-                addedComponents.innerHTML = "";
-                addedComponentsArray.forEach(component => {
-                  console.log(component.name)
-                  let addedComponentContainer = document.createElement("div");
-                  let addedComponentIcon = document.createElement("img");
-                  let addedComponentName = document.createElement("div");
-                  addedComponents.appendChild(addedComponentContainer);
-                  addedComponentContainer.classList.add("addedComponentContainer");
-                  addedComponentContainer.appendChild(addedComponentIcon);
-                  addedComponentContainer.appendChild(addedComponentName);
-                  addedComponentName.innerHTML = component.name;
-                  addedComponentIcon.src = component.image_url;
-                }) 
+                renderAddedComponents();
+                // console.log(addedComponentsArray)
+                // addedComponents.innerHTML = "";
+                // addedComponentsArray.forEach(component => {
+                //   let addedComponentContainer = document.createElement("div");
+                //   let addedComponentIcon = document.createElement("img");
+                //   let addedComponentName = document.createElement("div");
+                //   let removeComponentButton = document.createElement("button");
+                //   addedComponents.appendChild(addedComponentContainer);
+                //   addedComponentContainer.classList.add("addedComponentContainer");
+                //   addedComponentContainer.appendChild(addedComponentIcon);
+                //   addedComponentContainer.appendChild(addedComponentName);
+                //   addedComponentContainer.appendChild(removeComponentButton);
+                //   addedComponentName.innerHTML = component.name;
+                //   addedComponentIcon.src = component.image_url;
+                //   removeComponentButton.innerHTML = "Remove Component";
+                //   removeComponentButton.addEventListener("click", () => {
+                //     const indexToRemove = addedComponentsArray.findIndex(comp => comp.name === component.name);
+                //     if (indexToRemove !== -1) {
+                //       addedComponentsArray.splice(indexToRemove, 1);
+                //     }
+                //   })
+                // })
               })
             });
           } else {
@@ -91,7 +100,30 @@
           console.error("error fetching components:", error);
         }
       }
-
+      function renderAddedComponents() {
+        addedComponents.innerHTML = "";
+        addedComponentsArray.forEach(component => {
+          let addedComponentContainer = document.createElement("div");
+          let addedComponentIcon = document.createElement("img");
+          let addedComponentName = document.createElement("div");
+          let removeComponentButton = document.createElement("button");
+          addedComponents.appendChild(addedComponentContainer);
+          addedComponentContainer.classList.add("addedComponentContainer");
+          addedComponentContainer.appendChild(addedComponentIcon);
+          addedComponentContainer.appendChild(addedComponentName);
+          addedComponentContainer.appendChild(removeComponentButton);
+          addedComponentName.innerHTML = component.name;
+          addedComponentIcon.src = component.image_url;
+          removeComponentButton.innerHTML = "Remove Component";
+          removeComponentButton.addEventListener("click", () => {
+            const indexToRemove = addedComponentsArray.indexOf(component);
+            if (indexToRemove !== -1) {
+              addedComponentsArray.splice(indexToRemove, 1);
+            }
+            renderAddedComponents();
+          })
+        })
+      }
       itemComponentSearch.addEventListener("input", () => filterComponents(itemComponentSearch.value));
     </script>
 
@@ -100,4 +132,5 @@
 </html>
 <!-- maybe add frequency limit at which i query db, e.g. only every 0.5/1 second if typing item name in search.
  and add limit of displayed items -->
- <!-- add price limit. component items together cannot cost more than finished item price -->
+<!-- add price limit. component items together cannot cost more than finished item price -->
+<!-- maybe export to a different function the parts which clear/recreate dom?  -->
