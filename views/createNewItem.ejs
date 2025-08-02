@@ -9,35 +9,42 @@
 <body>
   <%- include("partials/navbar") %>
     <div>
-      <div class="form-container">
+      <form id="createNewItemForm" action="/createNewItem" method="post">
         <label for="itemName">Item Name</label>
         <input type="text" id="itemName" name="itemName">
         <label for="price">Price</label>
         <input type="number" id="price" name="price">
         <label for="image_url">Image url</label>
         <input type="url" id="image_url" name="image_url">
-        <legend>Item tags</legend>
-        <% tags.forEach(function(tag) { %>
-          <input type="checkbox" id="<%= tag%>" name="tag" value="<%= tag%>">
-          <label for="<%=tag%>">
-            <%= tag %>
-          </label>
-          <% }) %>
-            <label for="item-components">Add item components</label>
-            <input type="search" id="item-components" name="item-components">
-            <!-- item components. maybe search function through db based on name? dropdown results to select? -->
-            <div id="item-components-list"></div>
-            <div>
-              <div>Added Components:</div>
-              <div id="added-components-container">
-              </div>
-            </div>
+        <fieldset>
+          <legend>Item tags</legend>
+          <% tags.forEach(function(tag) { %>
+            <input type="checkbox" id="<%= tag%>" name="tag" value="<%= tag%>">
+            <label for="<%=tag%>">
+              <%= tag %>
+            </label>
+            <% }) %>
+        </fieldset>
+        <label for="item-components">Add item components</label>
+        <input type="search" id="item-components">
+              <div id="item-components-list"></div>
+        <button type="submit">Create Item</button>
+      </form>
+      <div>
+        <div>Added Components:</div>
+        <div id="added-components-container"></div>
       </div>
     </div>
     <script>
       let itemComponentSearch = document.getElementById("item-components");
       let itemComponentList = document.getElementById("item-components-list");
       let addedComponents = document.getElementById("added-components-container");
+      const addedComponentsArrayInput = document.createElement('input');
+      addedComponentsArrayInput.type = 'hidden';
+      addedComponentsArrayInput.name = 'components';
+      addedComponentsArrayInput.className = "aaaaaaaaaaaaaa";
+      let form = document.getElementById('createNewItemForm');
+      form.appendChild(addedComponentsArrayInput);
       let addedComponentsArray = [];
       async function filterComponents(searchText) {
         const query = itemComponentSearch.value.trim();
@@ -53,11 +60,11 @@
             itemComponentList.innerHTML = '';
             itemComponentList.style.display = 'block'
             data.forEach(item => {
-              console.log(item);
               const itemContainer = document.createElement('div');
               const itemName = document.createElement('div');
               const itemIcon = document.createElement('img');
               const addComponentButton = document.createElement('button');
+              addComponentButton.type = "button";
               itemName.innerHTML = item.name;
               itemIcon.src = item.image_url;
               addComponentButton.innerHTML = "Add Component";
@@ -68,28 +75,7 @@
               addComponentButton.addEventListener("click", () => {
                 addedComponentsArray.push(item);
                 renderAddedComponents();
-                // console.log(addedComponentsArray)
-                // addedComponents.innerHTML = "";
-                // addedComponentsArray.forEach(component => {
-                //   let addedComponentContainer = document.createElement("div");
-                //   let addedComponentIcon = document.createElement("img");
-                //   let addedComponentName = document.createElement("div");
-                //   let removeComponentButton = document.createElement("button");
-                //   addedComponents.appendChild(addedComponentContainer);
-                //   addedComponentContainer.classList.add("addedComponentContainer");
-                //   addedComponentContainer.appendChild(addedComponentIcon);
-                //   addedComponentContainer.appendChild(addedComponentName);
-                //   addedComponentContainer.appendChild(removeComponentButton);
-                //   addedComponentName.innerHTML = component.name;
-                //   addedComponentIcon.src = component.image_url;
-                //   removeComponentButton.innerHTML = "Remove Component";
-                //   removeComponentButton.addEventListener("click", () => {
-                //     const indexToRemove = addedComponentsArray.findIndex(comp => comp.name === component.name);
-                //     if (indexToRemove !== -1) {
-                //       addedComponentsArray.splice(indexToRemove, 1);
-                //     }
-                //   })
-                // })
+                updateAddedComponentsArrayInput();
               })
             });
           } else {
@@ -107,6 +93,7 @@
           let addedComponentIcon = document.createElement("img");
           let addedComponentName = document.createElement("div");
           let removeComponentButton = document.createElement("button");
+          removeComponentButton.type = "button";
           addedComponents.appendChild(addedComponentContainer);
           addedComponentContainer.classList.add("addedComponentContainer");
           addedComponentContainer.appendChild(addedComponentIcon);
@@ -121,10 +108,16 @@
               addedComponentsArray.splice(indexToRemove, 1);
             }
             renderAddedComponents();
+            updateAddedComponentsArrayInput();
           })
         })
       }
       itemComponentSearch.addEventListener("input", () => filterComponents(itemComponentSearch.value));
+      function updateAddedComponentsArrayInput() {
+        addedComponentsArrayInput.value = JSON.stringify(addedComponentsArray);
+        console.log("current components value", addedComponentsArrayInput.value)
+      }
+
     </script>
 
 </body>
@@ -134,3 +127,4 @@
  and add limit of displayed items -->
 <!-- add price limit. component items together cannot cost more than finished item price -->
 <!-- maybe export to a different function the parts which clear/recreate dom?  -->
+<!-- probably don't bother: make remove button actually remove the component clicked on, rather than the first occurrence of the same item? (for loop based on index instead of forEach) -->

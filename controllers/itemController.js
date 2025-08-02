@@ -48,9 +48,24 @@ async function searchItemComponents(req, res) {
     res.json(result)
 }
 
+async function createNewItem(req, res) {
+    const { itemName, price, image_url, tag, components } = req.body;
+    console.log("Item Name:", itemName);
+    console.log("Components:", components);
+    let id = await db.getNextItemId();
+    // db.createNewItem({})
+    console.log(id, "asd")
+    console.log(req.body);
+    // then push the item to the db and then redirect to the created item page
+    res.redirect("/item/1006");
+    // res.send("asd")
+}
+
+
 module.exports = {
     getItems,
     renderItemGet,
     renderCreateNewItem,
-    searchItemComponents
+    searchItemComponents,
+    createNewItem,
 }

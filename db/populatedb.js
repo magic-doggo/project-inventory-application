@@ -85,7 +85,7 @@ async function main() {
 
 main();
 
-module.exports = { result } //what did I export this for?
+module.exports = { result }
 
 //problem is id 7176 forever forward is built from 3013 synchronized souls which is not purchasable.so when we put 7176 in item_components, it returns an error because it has 3013 as a component, and this id does not exist in lol_items
 //item_tag values:  Armor,CooldownReduction,Stealth,SpellDamage,Active,CriticalStrike,SpellVamp,Jungle,MagicPenetration,ArmorPenetration,Vision,GoldPer,Tenacity,Boots,Aura
