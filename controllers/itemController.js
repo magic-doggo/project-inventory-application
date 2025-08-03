@@ -26,7 +26,7 @@ async function renderItemGet(req, res) {
         let itemDetails = await db.getItem(id.item_component_id)
         componentItemsDetails.push(...itemDetails)
     }
-    console.log(componentItemsDetails)
+    // console.log(componentItemsDetails)
     res.render("item", {
         item: item[0],
         tags: tags,
@@ -43,7 +43,6 @@ async function renderCreateNewItem(req, res) {
 
 async function searchItemComponents(req, res) {
     const query = req.query.component.toLowerCase();
-    console.log(query);
     const result = await db.getItemsByName(query);
     res.json(result)
 }
@@ -53,12 +52,19 @@ async function createNewItem(req, res) {
     console.log("Item Name:", itemName);
     console.log("Components:", components);
     let id = await db.getNextItemId();
-    // db.createNewItem({})
-    console.log(id, "asd")
-    console.log(req.body);
-    // then push the item to the db and then redirect to the created item page
-    res.redirect("/item/1006");
-    // res.send("asd")
+    const itemComponentsArray = JSON.parse(components)
+    item = {
+        id: id,
+        name: itemName,
+        price: price,
+        image_url: image_url,
+        itemComponents: itemComponentsArray,
+        tags: tag
+    }
+    console.log(item)
+    // push the item to the db and then redirect to the created item page
+    db.createNewItem(item)
+    res.redirect(`/item/${item.id}`);
 }
 
 

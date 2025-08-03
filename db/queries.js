@@ -48,15 +48,17 @@ async function getItemsByName(name) {
 }
 
 async function createNewItem(item) {
-    await pool.query("INSERT INTO lol_items(id, name, price, image_url, normalStoreItemBool) VALUES($1, $2, $3, $4, $5)", [item.id, item.name, item.price, item.image_url, True])
+    await pool.query("INSERT INTO lol_items(id, name, price, image_url, normalStoreItemBool) VALUES($1, $2, $3, $4, $5)", [item.id, item.name, item.price, item.image_url, true])
     if (item.tags) {
         for (tag of item.tags) {
+            console.log(tag, "tag db")
             await pool.query("INSERT  INTO item_tags (item_id, item_tag) VALUES($1, $2)", [item.id, tag]);
         }
     }
     if (item.itemComponents) {
         for (component of item.itemComponents) {
-            await pool.query("INSERT INTO item_components(item_id, item_component_id) VALUES ($1, $2)", [item.id, component])
+            console.log(component, "component db")
+            await pool.query("INSERT INTO item_components(item_id, item_component_id) VALUES ($1, $2)", [item.id, component.id])
         }
     }
 }
