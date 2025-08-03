@@ -67,6 +67,23 @@ async function createNewItem(req, res) {
     res.redirect(`/item/${item.id}`);
 }
 
+async function renderManageTags(req, res) {
+        res.render("manageTags", {
+        title: "Manage Tags",
+        tags: db.mainTags
+    })
+}
+
+async function createNewTag(req, res) {
+    console.log(req.body.tagName);
+    let tag = req.body.tagName;
+    db.createNewTag(tag)
+    res.redirect("/");
+}
+
+async function deleteTags(tags) {
+    console
+}
 
 module.exports = {
     getItems,
@@ -74,4 +91,12 @@ module.exports = {
     renderCreateNewItem,
     searchItemComponents,
     createNewItem,
+    renderManageTags,
+    createNewTag,
+    deleteTags
 }
+
+// create support for deleting tags. when tag is deleted, modify all items that have it to no longer have it?
+//then worry about how many items to show on dropdown when creating new item
+//then manage dropdown in header. can make it absolute position or something to cover part screen?
+//create new db for supported tags. currently stored in array and is lost of app closure

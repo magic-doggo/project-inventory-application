@@ -15,12 +15,12 @@ app.use(express.static(assetsPath));
 const indexRouter = require("./routes/indexRouter");
 const itemRouter = require("./routes/itemRouter");
 const createNewItemRouter = require("./routes/createNewItemRouter");
-const createNewTagRouter = require("./routes/createNewTagRouter");
+const manageTagsRouter = require("./routes/manageTagsRouter");
 
 app.use("/", indexRouter);
 app.use("/item", itemRouter);
 app.use("/createNewItem", createNewItemRouter);
-app.use("/createNewTag", createNewTagRouter);
+app.use("/manageTags", manageTagsRouter);
 
 const PORT = 3000;
 app.listen(PORT, () => {

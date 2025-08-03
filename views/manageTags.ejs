@@ -1,0 +1,36 @@
+<html>
+
+<head>
+  <title>
+    <%= title %>
+  </title>
+  <!-- <link rel="stylesheet" href="/styles.css"> -->
+</head>
+
+<body>
+  <%- include("partials/navbar") %>
+    <div>
+      <form action="/manageTags" method="post" id="createNewTagForm">
+        <label for="tagName">Tag name:</label>
+        <input type="text" name="tagName" id="tagName">
+        <button type="submit">Create Tag</button>
+      </form>
+
+      <form action="/manageTags/delete" method="post" id="deleteTag">
+        <legend>Item tags</legend>
+        <% tags.forEach(function(tag) { %>
+          <input type="checkbox" id="<%= tag%>" name="tag" value="<%= tag%>">
+          <label for="<%=tag%>">
+            <%= tag %>
+          </label>
+          <% }) %>
+          <button type="submit">Delete Selected Tag(s)</button>
+      </form>
+    </div>
+    <script>
+    </script>
+</body>
+
+</html>
+
+<!-- for creating new tags, show all existing tags, then form to create new one. maybe radio button yes/no or something else to decide if "show tag on main page" -->
