@@ -39,14 +39,14 @@ CREATE TABLE IF NOT EXISTS lol_items (
 CREATE TABLE IF NOT EXISTS item_components (
   item_id INT,
   item_component_id INT,
-  FOREIGN KEY (item_id) REFERENCES lol_items(id),
-  FOREIGN KEY (item_component_id) REFERENCES lol_items(id)
+  FOREIGN KEY (item_id) REFERENCES lol_items(id) ON DELETE CASCADE,
+  FOREIGN KEY (item_component_id) REFERENCES lol_items(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS item_tags (
   item_id INT,
   item_tag VARCHAR (255),
-  FOREIGN KEY (item_id) REFERENCES lol_items(id)
+  FOREIGN KEY (item_id) REFERENCES lol_items(id) ON DELETE CASCADE
 );
 `
 
