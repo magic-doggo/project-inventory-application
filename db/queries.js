@@ -77,7 +77,18 @@ async function createNewTag(tagName) {
 //there are about 20 tags, I do not want all of them to appear on the index page for filtering
 //mainTags will appear on main page. rest of tags will still be displayed under items that use them
 //SpellBlock more up to date than magicResist in api
-let mainTags = ["Armor", "SpellBlock", "Damage", "SpellDamage", "AttackSpeed", "AbilityHaste", "CriticalStrike", "ArmorPenetration", "MagicPenetration"]
+// let mainTags = ["Armor", "SpellBlock", "Damage", "SpellDamage", "AttackSpeed", "AbilityHaste", "CriticalStrike", "ArmorPenetration", "MagicPenetration"]
+
+let mainTags = async function getMainTags() {
+    const res = await pool.query("SELECT name from tags where displayOnMainPageBool = false")
+    let mainTagsArray = []
+    // console.log(res.rows);
+    for (let row of res.rows) {
+        mainTagsArray.push(row.name);
+    }
+    // console.log(mainTagsArray);
+    return mainTagsArray;
+}
 
 module.exports = {
     getAllItems,
@@ -89,5 +100,5 @@ module.exports = {
     getItemsByName,
     createNewItem,
     getNextItemId,
-    createNewTag
+    createNewTag,
 }

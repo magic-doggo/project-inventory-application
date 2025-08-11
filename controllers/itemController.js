@@ -3,6 +3,7 @@ const db = require("../db/queries");
 async function getItems(req, res) {
     const tag = req.query.tag;
     const sort = req.query.priceSort;
+    const tags = await db.mainTags();
     let items;
     if (!tag) {
         items = await db.getAllItems(sort);
@@ -12,7 +13,7 @@ async function getItems(req, res) {
         items: items,
         selectedTag: tag,
         selectedPriceSort: sort,
-        tags: db.mainTags
+        tags: tags
     })
 }
 

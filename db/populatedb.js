@@ -43,10 +43,17 @@ CREATE TABLE IF NOT EXISTS item_components (
   FOREIGN KEY (item_component_id) REFERENCES lol_items(id) ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS tags (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR (255) UNIQUE,
+  displayOnMainPageBool BOOLEAN
+);
+
 CREATE TABLE IF NOT EXISTS item_tags (
   item_id INT,
-  item_tag VARCHAR (255),
-  FOREIGN KEY (item_id) REFERENCES lol_items(id) ON DELETE CASCADE
+  tag_id INT,
+  FOREIGN KEY (item_id) REFERENCES lol_items(id) ON DELETE CASCADE,
+  FOREIGN KEY (tag_id) REFERENCES tags(id) ON DELETE CASCADE
 );
 `
 
@@ -74,8 +81,26 @@ async function main() {
     }
     }
     if (item.tags) {
-      for (tag of item.tags) {
-        await client.query("INSERT  INTO item_tags (item_id, item_tag) VALUES($1, $2)", [item.id, tag])
+      for (let tag of item.tags) {
+        //for each tag of each item, insert into tags db. if it exists already, do nothing and return nothing, no rows
+        const insertedTag = await client.query(
+          "INSERT INTO tags(name, displayOnMainPageBool) VALUES ($1, $2) ON CONFLICT (name) DO NOTHING RETURNING id", [tag, false]
+        );
+
+        let tagId;
+        if (insertedTag.rows.length > 0) {
+          tagId = insertedTag.rows[0].id
+        } else {
+          //if nothing is returned, tags already contains the tag, find the id of the tag
+          const findTagId = await client.query(
+            "SELECT id FROM tags WHERE name = $1", [tag]
+          );
+          tagId = findTagId.rows[0].id; 
+        }
+
+        await client.query(
+          "INSERT INTO Item_tags(item_id, tag_id) VALUES($1, $2)", [item.id, tagId]
+        );
       }
     }
   }
@@ -87,7 +112,6 @@ main();
 
 module.exports = { result }
 
-//problem is id 7176 forever forward is built from 3013 synchronized souls which is not purchasable.so when we put 7176 in item_components, it returns an error because it has 3013 as a component, and this id does not exist in lol_items
 //item_tag values:  Armor,CooldownReduction,Stealth,SpellDamage,Active,CriticalStrike,SpellVamp,Jungle,MagicPenetration,ArmorPenetration,Vision,GoldPer,Tenacity,Boots,Aura
 //maybe create another table complete_items, that only contains items which do not have "into" in the api?
 //possible filters: select price range (maybe even with a mouse draggable range bar), tags, maybe complete items/components/base items
