@@ -7,12 +7,14 @@ async function getAllItems(sort = 'ASC') {
 
 async function getFilteredItems(tagFilter, sort = 'ASC') {
     const { rows } = await pool.query
-        (`SELECT id, name, price, image_url, item_tag
+        (`SELECT lol_items.id, lol_items.name, lol_items.price, lol_items.image_url, tags.name
     FROM lol_items 
-    LEFT JOIN item_tags on id=item_id 
+    LEFT JOIN item_tags on lol_items.id=item_id 
+    LEFT JOIN tags on item_tags.tag_id = tags.id
     WHERE normalStoreItemBool = True
-    AND item_tag= $1
+    AND tags.name= $1
     ORDER BY price ${sort === 'DESC' ? 'DESC' : 'ASC'} LIMIT 10`, [tagFilter])
+    console.log("getfiltereditems: ", rows)
     return rows;
 }
 
