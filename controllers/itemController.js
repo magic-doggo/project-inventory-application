@@ -27,7 +27,6 @@ async function renderItemGet(req, res) {
         let itemDetails = await db.getItem(id.item_component_id)
         componentItemsDetails.push(...itemDetails)
     }
-    // console.log(componentItemsDetails)
     res.render("item", {
         item: item[0],
         tags: tags,

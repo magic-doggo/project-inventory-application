@@ -7,14 +7,14 @@ async function getAllItems(sort = 'ASC') {
 
 async function getFilteredItems(tagFilter, sort = 'ASC') {
     const { rows } = await pool.query
-        (`SELECT lol_items.id, lol_items.name, lol_items.price, lol_items.image_url, tags.name
+        (`SELECT lol_items.id, lol_items.name, lol_items.price, lol_items.image_url, tags.name as tag_name
     FROM lol_items 
-    LEFT JOIN item_tags on lol_items.id=item_id 
+    LEFT JOIN item_tags on lol_items.id= item_tags.item_id 
     LEFT JOIN tags on item_tags.tag_id = tags.id
     WHERE normalStoreItemBool = True
     AND tags.name= $1
     ORDER BY price ${sort === 'DESC' ? 'DESC' : 'ASC'} LIMIT 10`, [tagFilter])
-    console.log("getfiltereditems: ", rows)
+    // console.log("getfiltereditems: ", rows)
     return rows;
 }
 
@@ -27,10 +27,11 @@ async function getItem(itemId) {
 // LEFT JOIN item_tags on id = item_tags.item_id
 
 async function getItemTags(itemId) {
-    const { rows } = await pool.query(`SELECT item_tag
-    FROM item_tags
-    WHERE item_id = $1`, [itemId])
-    return rows
+    const {rows} = await pool.query(`SELECT tags.name
+        FROM tags
+        RIGHT JOIN item_tags ON tags.id = item_tags.tag_id
+        WHERE item_tags.item_id = $1`, [itemId]);
+    return rows;
 }
 
 async function getItemComponents(itemId) {
@@ -84,11 +85,9 @@ async function createNewTag(tagName) {
 let mainTags = async function getMainTags() {
     const res = await pool.query("SELECT name from tags where displayOnMainPageBool = false")
     let mainTagsArray = []
-    // console.log(res.rows);
     for (let row of res.rows) {
         mainTagsArray.push(row.name);
     }
-    // console.log(mainTagsArray);
     return mainTagsArray;
 }
 
