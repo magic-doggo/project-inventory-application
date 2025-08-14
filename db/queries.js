@@ -78,8 +78,8 @@ async function getNextItemId() {
 }
 
 async function createNewTag(tagName) {
-    mainTags.push(tagName)
-    console.log(mainTags)
+    // mainTags.push(tagName)
+    await pool.query("INSERT INTO tags (name, displayOnMainPageBool) VALUES ($1, $2)", [tagName, false])
     return tagName;
 }
 

@@ -69,9 +69,10 @@ async function createNewItem(req, res) {
 }
 
 async function renderManageTags(req, res) {
+        const tags = await db.mainTags();
         res.render("manageTags", {
         title: "Manage Tags",
-        tags: db.mainTags
+        tags: tags
     })
 }
 
