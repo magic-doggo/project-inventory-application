@@ -27,7 +27,7 @@ async function getItem(itemId) {
 // LEFT JOIN item_tags on id = item_tags.item_id
 
 async function getItemTags(itemId) {
-    const {rows} = await pool.query(`SELECT tags.name
+    const { rows } = await pool.query(`SELECT tags.name
         FROM tags
         RIGHT JOIN item_tags ON tags.id = item_tags.tag_id
         WHERE item_tags.item_id = $1`, [itemId]);
@@ -53,8 +53,14 @@ async function getItemsByName(name) {
 async function createNewItem(item) {
     await pool.query("INSERT INTO lol_items(id, name, price, image_url, normalStoreItemBool) VALUES($1, $2, $3, $4, $5)", [item.id, item.name, item.price, item.image_url, true])
     if (item.tags) {
-        for (tag of item.tags) {
-            await pool.query("INSERT  INTO item_tags (item_id, item_tag) VALUES($1, $2)", [item.id, tag]);
+        for (let tag of item.tags) {
+            // await pool.query("INSERT  INTO item_tags (item_id, item_tag) VALUES($1, $2)", [item.id, tag]);
+            // add logic in case tag does not exist? though it should not happen
+            let tagRows = await pool.query(`SELECT id 
+                FROM tags
+                where name = $1`, [tag]);
+            let tagId = tagRows.rows[0].id
+            await pool.query(`INSERT INTO item_tags (item_id, tag_id) VALUES ($1, $2)`, [item.id, tagId]);
         }
     }
     if (item.itemComponents) {
@@ -67,7 +73,7 @@ async function createNewItem(item) {
 async function getNextItemId() {
     const res = await pool.query("SELECT MAX(id) as id from lol_items WHERE id >= 1000000");
     const maxId = res.rows[0].id;
-    if (maxId) return maxId+1;
+    if (maxId) return maxId + 1;
     else return 1000000;
 }
 
@@ -82,6 +88,7 @@ async function createNewTag(tagName) {
 //SpellBlock more up to date than magicResist in api
 // let mainTags = ["Armor", "SpellBlock", "Damage", "SpellDamage", "AttackSpeed", "AbilityHaste", "CriticalStrike", "ArmorPenetration", "MagicPenetration"]
 
+//if not want to display all tags, select only where displayOnMainPage = true, and modify displayonmainpage in db. not used currently, all false
 let mainTags = async function getMainTags() {
     const res = await pool.query("SELECT name from tags where displayOnMainPageBool = false")
     let mainTagsArray = []

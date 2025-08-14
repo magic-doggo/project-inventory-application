@@ -35,9 +35,10 @@ async function renderItemGet(req, res) {
 }
 
 async function renderCreateNewItem(req, res) {
+    const tags = await db.mainTags();
     res.render("createNewItem", {
         title: "Create New Item",
-        tags: db.mainTags
+        tags: tags
     })
 }
 
