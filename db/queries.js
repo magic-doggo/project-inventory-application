@@ -98,6 +98,10 @@ let mainTags = async function getMainTags() {
     return mainTagsArray;
 }
 
+async function deleteTag(tag) {
+    await pool.query("DELETE FROM tags WHERE name = $1", [tag]);
+    return;
+}
 module.exports = {
     getAllItems,
     getFilteredItems,
@@ -109,4 +113,5 @@ module.exports = {
     createNewItem,
     getNextItemId,
     createNewTag,
+    deleteTag
 }

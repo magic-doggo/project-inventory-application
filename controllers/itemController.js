@@ -50,8 +50,8 @@ async function searchItemComponents(req, res) {
 
 async function createNewItem(req, res) {
     const { itemName, price, image_url, tag, components } = req.body;
-    console.log("Item Name:", itemName);
-    console.log("Components:", components);
+    // console.log("Item Name:", itemName);
+    // console.log("Components:", components);
     let id = await db.getNextItemId();
     const itemComponentsArray = JSON.parse(components)
     item = {
@@ -62,7 +62,7 @@ async function createNewItem(req, res) {
         itemComponents: itemComponentsArray,
         tags: tag
     }
-    console.log(item)
+    // console.log(item)
     // push the item to the db and then redirect to the created item page
     db.createNewItem(item)
     res.redirect(`/item/${item.id}`);
@@ -77,14 +77,23 @@ async function renderManageTags(req, res) {
 }
 
 async function createNewTag(req, res) {
-    console.log(req.body.tagName);
+    // console.log(req.body.tagName);
     let tag = req.body.tagName;
     db.createNewTag(tag)
     res.redirect("/");
 }
 
-async function deleteTags(tags) {
-    console
+async function deleteTags(req, res) {
+    let tags = req.body.tag;
+    if (!tags) {
+        tags = []
+    } else if (!Array.isArray(tags)) {
+        tags = [tags]
+    }
+    for (let tag of tags) {
+        db.deleteTag(tag);
+    }
+    res.redirect("/manageTags");
 }
 
 module.exports = {
