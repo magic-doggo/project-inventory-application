@@ -102,6 +102,12 @@ async function deleteTag(tag) {
     await pool.query("DELETE FROM tags WHERE name = $1", [tag]);
     return;
 }
+
+async function deleteItem(itemId) {
+    console.log(itemId, " queries itemid");
+    await pool.query("DELETE FROM lol_items where id = $1", [itemId])
+    return;
+}
 module.exports = {
     getAllItems,
     getFilteredItems,
@@ -113,5 +119,6 @@ module.exports = {
     createNewItem,
     getNextItemId,
     createNewTag,
-    deleteTag
+    deleteTag,
+    deleteItem
 }

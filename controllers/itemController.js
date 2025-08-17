@@ -27,6 +27,7 @@ async function renderItemGet(req, res) {
         let itemDetails = await db.getItem(id.item_component_id)
         componentItemsDetails.push(...itemDetails)
     }
+    console.log(item)
     res.render("item", {
         item: item[0],
         tags: tags,
@@ -48,10 +49,8 @@ async function searchItemComponents(req, res) {
     res.json(result)
 }
 
-async function createNewItem(req, res) {
+async function createNewItem(req, res) { //fix issue where it does not render item components until after refresh
     const { itemName, price, image_url, tag, components } = req.body;
-    // console.log("Item Name:", itemName);
-    // console.log("Components:", components);
     let id = await db.getNextItemId();
     const itemComponentsArray = JSON.parse(components)
     item = {
@@ -62,7 +61,6 @@ async function createNewItem(req, res) {
         itemComponents: itemComponentsArray,
         tags: tag
     }
-    // console.log(item)
     // push the item to the db and then redirect to the created item page
     db.createNewItem(item)
     res.redirect(`/item/${item.id}`);
@@ -96,6 +94,19 @@ async function deleteTags(req, res) {
     res.redirect("/manageTags");
 }
 
+async function deleteItem(req, res){
+    const itemId = req.params.itemId;
+    console.log(req.params, " req.params")
+    console.log(itemId, " controller itemid");
+    try {
+        await db.deleteItem(itemId);
+        res.status(200).send("item deleted");
+    } catch (err) {
+        console.log(err);
+        res.status(500).send("error deleting item")
+    }
+}
+
 module.exports = {
     getItems,
     renderItemGet,
@@ -104,7 +115,8 @@ module.exports = {
     createNewItem,
     renderManageTags,
     createNewTag,
-    deleteTags
+    deleteTags,
+    deleteItem
 }
 
 // create support for deleting tags. when tag is deleted, modify all items that have it to no longer have it?
