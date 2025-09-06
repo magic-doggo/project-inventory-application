@@ -1,0 +1,44 @@
+#item-list {
+    position: absolute;
+    border: 1px solid red;
+    background-color: white;
+    width: 150px;
+    max-height: 50vh;
+    overflow-y: scroll;
+}
+
+.title-and-links {
+    display: flex;
+    justify-content: space-between;
+}
+
+.nav-links {
+    align-content: center;
+}
+
+nav {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid black;
+}
+
+#search-items-form {
+    align-self: center;
+    width: 40%;
+}
+
+#search-items {
+    width: 75%;
+}
+
+#item-list > a > div {
+    border: 1px solid gray;
+    margin: 2px;
+}
+
+#item-list > a > div > img {
+    /* border: 1px solid gray; */
+    display: block;
+    margin: auto;
+    width: 80%;
+}
