@@ -12,12 +12,20 @@
   <%- include("partials/navbar") %>
     <div>
       <form id="createNewItemForm" action="/createNewItem" method="post">
-        <label for="itemName">Item Name</label>
-        <input type="text" id="itemName" name="itemName">
-        <label for="price">Price</label>
-        <input type="number" id="price" name="price">
-        <label for="image_url">Image url</label>
-        <input type="url" id="image_url" name="image_url">
+        <div class="inputs-and-components">
+          <div>
+            <label for="itemName">Item Name</label>
+            <input type="text" id="itemName" name="itemName">
+            <label for="price">Price</label>
+            <input type="number" id="price" name="price">
+            <label for="image_url">Image url</label>
+            <input type="url" id="image_url" name="image_url">
+          </div>
+          <div>
+            <div>Added Components:</div>
+            <div id="added-components-container"></div>
+          </div>
+        </div>
         <fieldset>
           <legend>Item tags</legend>
           <% tags.forEach(function(tag) { %>
@@ -32,10 +40,10 @@
         <div id="item-components-list"></div>
         <button type="submit">Create Item</button>
       </form>
-      <div>
+      <!-- <div>
         <div>Added Components:</div>
         <div id="added-components-container"></div>
-      </div>
+      </div> -->
     </div>
     <script>
       let itemComponentSearch = document.getElementById("item-components");
@@ -60,20 +68,24 @@
           const data = await res.json();
           if (data.length > 0) {
             itemComponentList.innerHTML = '';
-            itemComponentList.style.display = 'block'
+            itemComponentList.style.display = 'flex'
             data.forEach(item => {
               const itemContainer = document.createElement('div');
               const itemName = document.createElement('div');
               const itemIcon = document.createElement('img');
+              const buttonAndNameContainer = document.createElement('div');
               const addComponentButton = document.createElement('button');
               addComponentButton.type = "button";
               itemName.innerHTML = item.name;
               itemIcon.src = item.image_url;
               addComponentButton.innerHTML = "Add Component";
               itemComponentList.appendChild(itemContainer);
-              itemContainer.appendChild(itemName);
+              // itemContainer.appendChild(itemName);
               itemContainer.appendChild(itemIcon);
-              itemContainer.appendChild(addComponentButton);
+              itemContainer.appendChild(buttonAndNameContainer);
+              buttonAndNameContainer.appendChild(itemName);
+              buttonAndNameContainer.appendChild(addComponentButton)
+              // itemContainer.appendChild(addComponentButton);
               addComponentButton.addEventListener("click", () => {
                 addedComponentsArray.push(item);
                 renderAddedComponents();
