@@ -13,22 +13,31 @@
       <div>Items:</div>
       <button>Create an Item</button>
     </div> -->
+    <form method="get" action="" id="search-items-form">
+      <input type="search" name="search-items" id="search-items" placeholder="search items...">
+      <button>
+        <img src="/utils/magnify.svg" width="20" height="20">
+      </button>
+      <div id="item-list"></div>
+    </form>
     <div class="items-container">
       <form action="/" method="get" id="filterForm">
         <p>Tags:</p>
-      <% tags.forEach(function(tag) { %>
-        <input type="radio" id="<%= tag%>" name="tag" value="<%= tag%>" <%=selectedTag=== tag ? 'checked' : '' %>>
-        <label for="<%=tag%>"><%= tag %></label>
-      <% }) %> 
-      <!-- </form> using same form for both
+        <% tags.forEach(function(tag) { %>
+          <input type="radio" id="<%= tag%>" name="tag" value="<%= tag%>" <%=selectedTag===tag ? 'checked' : '' %>>
+          <label for="<%=tag%>">
+            <%= tag %>
+          </label>
+          <% }) %>
+            <!-- </form> using same form for both
       <form action="/" method="get" id="priceSortForm">  -->
-        <p>Sort by price:</p>
-        <input type="radio" id="Ascending" name="priceSort" value="ASC" checked <%=selectedPriceSort==='ASC' ? 'checked'
-          : '' %> >
-        <label for="Ascending">Ascending</label>
-        <input type="radio" id="Descending" name="priceSort" value="DESC" <%=selectedPriceSort==='DESC' ? 'checked' : ''
-          %>>
-        <label for="Descending">Descending</label>
+            <p>Sort by price:</p>
+            <input type="radio" id="Ascending" name="priceSort" value="ASC" checked <%=selectedPriceSort==='ASC'
+              ? 'checked' : '' %> >
+            <label for="Ascending">Ascending</label>
+            <input type="radio" id="Descending" name="priceSort" value="DESC" <%=selectedPriceSort==='DESC' ? 'checked'
+              : '' %>>
+            <label for="Descending">Descending</label>
       </form>
       <ul>
         <% for (let i=0; i < items.length; i++) { %>
@@ -58,6 +67,46 @@
           document.getElementById('filterForm').submit();
         })
       })
+      let itemSearch = document.getElementById("search-items");
+      let itemList = document.getElementById("item-list");
+      // let form = document.getElementById("search-items-form");
+      async function filterSearchItems(searchText) {
+        console.log("filtersearchitems runs")
+        const query = itemSearch.value.trim();
+        if (query.length === 0) {
+          itemList.innerHTML = "";
+          itemList.style.display = "none";
+          return;
+        }
+        try {
+          const res = await fetch(`/search?component=${encodeURIComponent(query)}`);
+          const data = await res.json();
+          console.log("query is not empty, data: ", data)
+          if (data.length > 0) {
+            itemList.innerHTML = '';
+            itemList.style.display = "block";
+            data.forEach(item => {
+              const anchorToItemPage = document.createElement('a');
+              anchorToItemPage.href = `/item/${item.id}`;
+              const itemContainer = document.createElement('div');
+              const itemName = document.createElement('div');
+              const itemIcon = document.createElement('img');
+              itemName.innerHTML = item.name;
+              itemIcon.src = item.image_url;
+              itemList.appendChild(anchorToItemPage);
+              itemContainer.appendChild(itemName);
+              itemContainer.appendChild(itemIcon);
+              anchorToItemPage.appendChild(itemContainer);
+            })
+          } else {
+            itemList.innerHTML = '';
+            itemList.style.display = 'none';
+          }
+        } catch (error) {
+          console.error("error fetching items:", error);
+        }
+      }
+      itemSearch.addEventListener("input", () => filterSearchItems(itemSearch.value))
     </script>
 </body>
 

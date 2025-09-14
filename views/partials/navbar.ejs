@@ -7,54 +7,53 @@
             <a href="/manageTags">Manage Tags</a>
         </div>
     </div>
-    <form method="get" action="" id="search-items-form">
+    <!-- <form method="get" action="" id="search-items-form">
         <input type="search" name="search-items" id="search-items" placeholder="search items...">
         <button>
-            <!-- not implemented yet. already have a route /item/{itemName}. maybe search will search the db? results either in dropdown or new page? or same page with param? -->
             <img src="/utils/magnify.svg" width="20" height="20">
         </button>
         <div id="item-list"></div>
-    </form>
+    </form> -->
     <script>
-        let itemSearch = document.getElementById("search-items");
-        let itemList = document.getElementById("item-list");
-        // let form = document.getElementById("search-items-form");
-        async function filterSearchItems(searchText) {
-            console.log("filtersearchitems runs")
-            const query = itemSearch.value.trim();
-            if (query.length === 0) {
-                itemList.innerHTML = "";
-                itemList.style.display = "none";
-                return;
-            }
-            try {
-                const res = await fetch(`/search?component=${encodeURIComponent(query)}`);
-                const data = await res.json();
-                console.log("query is not empty, data: ", data)
-                if (data.length > 0) {
-                    itemList.innerHTML = '';
-                    itemList.style.display = "block";
-                    data.forEach(item => {
-                        const anchorToItemPage = document.createElement('a');
-                        anchorToItemPage.href = `/item/${item.id}`;
-                        const itemContainer = document.createElement('div');
-                        const itemName = document.createElement('div');
-                        const itemIcon = document.createElement('img');
-                        itemName.innerHTML = item.name;
-                        itemIcon.src = item.image_url;
-                        itemList.appendChild(anchorToItemPage);
-                        itemContainer.appendChild(itemName);
-                        itemContainer.appendChild(itemIcon);
-                        anchorToItemPage.appendChild(itemContainer);
-                    })
-                } else {
-                    itemList.innerHTML = '';
-                    itemList.style.display = 'none';
-                }
-            } catch (error) {
-                console.error("error fetching items:", error);
-            }
-        }
-        itemSearch.addEventListener("input", () => filterSearchItems(itemSearch.value))
+        // let itemSearch = document.getElementById("search-items");
+        // let itemList = document.getElementById("item-list");
+        // // let form = document.getElementById("search-items-form");
+        // async function filterSearchItems(searchText) {
+        //     console.log("filtersearchitems runs")
+        //     const query = itemSearch.value.trim();
+        //     if (query.length === 0) {
+        //         itemList.innerHTML = "";
+        //         itemList.style.display = "none";
+        //         return;
+        //     }
+        //     try {
+        //         const res = await fetch(`/search?component=${encodeURIComponent(query)}`);
+        //         const data = await res.json();
+        //         console.log("query is not empty, data: ", data)
+        //         if (data.length > 0) {
+        //             itemList.innerHTML = '';
+        //             itemList.style.display = "block";
+        //             data.forEach(item => {
+        //                 const anchorToItemPage = document.createElement('a');
+        //                 anchorToItemPage.href = `/item/${item.id}`;
+        //                 const itemContainer = document.createElement('div');
+        //                 const itemName = document.createElement('div');
+        //                 const itemIcon = document.createElement('img');
+        //                 itemName.innerHTML = item.name;
+        //                 itemIcon.src = item.image_url;
+        //                 itemList.appendChild(anchorToItemPage);
+        //                 itemContainer.appendChild(itemName);
+        //                 itemContainer.appendChild(itemIcon);
+        //                 anchorToItemPage.appendChild(itemContainer);
+        //             })
+        //         } else {
+        //             itemList.innerHTML = '';
+        //             itemList.style.display = 'none';
+        //         }
+        //     } catch (error) {
+        //         console.error("error fetching items:", error);
+        //     }
+        // }
+        // itemSearch.addEventListener("input", () => filterSearchItems(itemSearch.value))
     </script>
 </nav>
