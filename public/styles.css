@@ -1,11 +1,12 @@
+body {
+    margin: 0;
+    color: #2b313d;
+}
+
 .header {
     background-color: #2b313d;
     color: white;
     /* text-decoration: none; */
-}
-
-body {
-    margin: 0;
 }
 
 .nav-links>a {
@@ -73,10 +74,16 @@ nav {
 
 .inputs-and-components {
     display: flex;
+    gap: 20px;
+    margin-bottom: 14px;
 }
 
 .inputs-and-components>div>input {
-    margin-bottom: 10px;
+    margin-bottom: 14px;
+}
+
+fieldset {
+    margin-bottom: 14px;
 }
 
 #added-components-container {
@@ -102,16 +109,42 @@ nav {
     max-width: 50px;
 }
 
+/* display: flex is added via js */
 #item-components-list {
     flex-wrap: wrap;
+    gap: 8px;
 }
 
 #item-components-list>div {
     display: flex;
+    border: 1px solid gray;
+    border-radius: 8px;
+    overflow: hidden;
+} 
+
+#item-components-list > div > img {
+    border-radius: 8px;
 }
 
+
 #item-components-list>div>div {
-    /* display: flex;
-    flex-direction: column; */
+    display: flex;
+    flex-direction: column;
     min-width: 180px;
+    align-items: center;
+    justify-content: space-around;
+    /* gap: 6px; */
+}
+
+body > div {
+    margin: 20px;
+}
+
+form > button {
+    margin-top: 14px;
+}
+
+.createItemButton {
+    display: block;
+    margin-top: 20px;
 }

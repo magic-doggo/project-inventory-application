@@ -11,15 +11,16 @@
 <body>
   <%- include("partials/navbar") %>
     <div>
+      <h2>Create a new Item:</h2>
       <form id="createNewItemForm" action="/createNewItem" method="post">
         <div class="inputs-and-components">
           <div>
             <label for="itemName">Item Name</label>
-            <input type="text" id="itemName" name="itemName">
+            <input type="text" id="itemName" name="itemName" placeholder="Blade of Doggos">
             <label for="price">Price</label>
-            <input type="number" id="price" name="price">
+            <input type="number" id="price" name="price" placeholder="3200">
             <label for="image_url">Image url</label>
-            <input type="url" id="image_url" name="image_url">
+            <input type="url" id="image_url" name="image_url" placeholder="https://i.imgur.com/PCy2z6c.jpeg">
           </div>
           <div>
             <div>Added Components:</div>
@@ -35,10 +36,10 @@
             </label>
             <% }) %>
         </fieldset>
-        <label for="item-components">Add item components</label>
-        <input type="search" id="item-components">
+        <label for="item-components">Add item components:</label>
+        <input type="search" id="item-components" placeholder="search for item name...">
         <div id="item-components-list"></div>
-        <button type="submit">Create Item</button>
+        <button type="submit" class="createItemButton">Create Item</button>
       </form>
       <!-- <div>
         <div>Added Components:</div>
