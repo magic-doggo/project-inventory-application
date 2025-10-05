@@ -1,7 +1,7 @@
 const pool = require("./pool");
 
 async function getAllItems(sort = 'ASC') {
-    const { rows } = await pool.query(`SELECT * FROM lol_items where normalStoreItemBool = True ORDER BY price ${sort === 'DESC' ? 'DESC' : 'ASC'} LIMIT 10`);
+    const { rows } = await pool.query(`SELECT * FROM lol_items where normalStoreItemBool = True ORDER BY price ${sort === 'DESC' ? 'DESC' : 'ASC'} LIMIT 20`);
     return rows;
 }
 
@@ -13,7 +13,7 @@ async function getFilteredItems(tagFilter, sort = 'ASC') {
     LEFT JOIN tags on item_tags.tag_id = tags.id
     WHERE normalStoreItemBool = True
     AND tags.name= $1
-    ORDER BY price ${sort === 'DESC' ? 'DESC' : 'ASC'} LIMIT 10`, [tagFilter])
+    ORDER BY price ${sort === 'DESC' ? 'DESC' : 'ASC'} LIMIT 20`, [tagFilter])
     // console.log("getfiltereditems: ", rows)
     return rows;
 }

@@ -4,7 +4,7 @@
   <title>
     <%= title %>
   </title>
-  <!-- <link rel="stylesheet" href="/styles.css"> -->
+  <link rel="stylesheet" href="/homeStyles.css">
 </head>
 
 <body>
@@ -14,7 +14,8 @@
       <button>Create an Item</button>
     </div> -->
     <form method="get" action="" id="search-items-form">
-      <input type="search" name="search-items" id="search-items" placeholder="search items...">
+      <!-- <label for="search-items">Search all items: </label> -->
+      <input type="search" name="search-items" id="search-items" placeholder="search for an item">
       <button>
         <img src="/utils/magnify.svg" width="20" height="20">
       </button>
@@ -22,13 +23,17 @@
     </form>
     <div class="items-container">
       <form action="/" method="get" id="filterForm">
-        <p>Tags:</p>
-        <% tags.forEach(function(tag) { %>
-          <input type="radio" id="<%= tag%>" name="tag" value="<%= tag%>" <%=selectedTag===tag ? 'checked' : '' %>>
-          <label for="<%=tag%>">
-            <%= tag %>
-          </label>
-          <% }) %>
+        <fieldset>
+          <legend>Item tags</legend>
+          <% tags.forEach(function(tag) { %>
+            <div class="tags">
+              <input type="radio" id="<%= tag%>" name="tag" value="<%= tag%>" <%=selectedTag===tag ? 'checked' : '' %>>
+              <label for="<%=tag%>">
+                <%= tag %>
+              </label>
+            </div>
+            <% }) %>
+        </fieldset>
             <!-- </form> using same form for both
       <form action="/" method="get" id="priceSortForm">  -->
             <p>Sort by price:</p>
@@ -39,19 +44,21 @@
               : '' %>>
             <label for="Descending">Descending</label>
       </form>
-      <ul>
+      <div class="itemsContainer">
         <% for (let i=0; i < items.length; i++) { %>
-          <div>
+          <div class="itemContainer">
             <img src="<%= items[i].image_url %>" alt="">
-            <a href="../item/<%= items[i].id %>">
-              <%= items[i].name %>
-            </a>
-            <div>
-              <%= items[i].price %> gold
+            <div class="item-name-price">
+              <a href="../item/<%= items[i].id %>">
+                <%= items[i].name %>
+              </a>
+              <div>
+                <%= items[i].price %> gold
+              </div>
             </div>
           </div>
           <% } %>
-      </ul>
+      </div>
     </div>
     <script>
       const tagFormInputs = document.querySelectorAll("input[name='tag']");
@@ -88,15 +95,19 @@
             data.forEach(item => {
               const anchorToItemPage = document.createElement('a');
               anchorToItemPage.href = `/item/${item.id}`;
-              const itemContainer = document.createElement('div');
+              const dropdownItemContainer = document.createElement('div');
+              dropdownItemContainer.classList.add('dropdownItemContainer');
+              // const itemContainer = document.createElement('div');
               const itemName = document.createElement('div');
               const itemIcon = document.createElement('img');
+              dropdownItemContainer.appendChild(itemName);
+              dropdownItemContainer.appendChild(itemIcon);
               itemName.innerHTML = item.name;
               itemIcon.src = item.image_url;
               itemList.appendChild(anchorToItemPage);
-              itemContainer.appendChild(itemName);
-              itemContainer.appendChild(itemIcon);
-              anchorToItemPage.appendChild(itemContainer);
+              // itemContainer.appendChild(itemName);
+              // itemContainer.appendChild(itemIcon);
+              anchorToItemPage.appendChild(dropdownItemContainer);
             })
           } else {
             itemList.innerHTML = '';

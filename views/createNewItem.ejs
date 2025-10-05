@@ -4,7 +4,7 @@
   <title>
     <%= title %>
   </title>
-  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/createNewItemStyles.css">
 
 </head>
 
@@ -30,10 +30,12 @@
         <fieldset>
           <legend>Item tags</legend>
           <% tags.forEach(function(tag) { %>
-            <input type="checkbox" id="<%= tag%>" name="tag" value="<%= tag%>">
-            <label for="<%=tag%>">
-              <%= tag %>
-            </label>
+            <div class="tags">
+              <input type="checkbox" id="<%= tag%>" name="tag" value="<%= tag%>">
+              <label for="<%=tag%>">
+                <%= tag %>
+              </label>
+            </div>
             <% }) %>
         </fieldset>
         <label for="item-components">Add item components:</label>

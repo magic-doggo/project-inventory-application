@@ -45,26 +45,28 @@ nav {
     border-bottom: 1px solid black;
 }
 
-#search-items-form {
+/* no longer keeping search in partials in every page probably */
+/* #search-items-form {
     align-self: center;
     width: 40%;
-}
+} */
 
-#search-items {
+/* #search-items {
     width: 75%;
-}
+} */
 
-#item-list>a>div {
+/* #item-list>a>div {
     border: 1px solid gray;
     margin: 2px;
 }
 
 #item-list>a>div>img {
-    /* border: 1px solid gray; */
     display: block;
     margin: auto;
     width: 80%;
-}
+} */
+
+/* above is duplicate code for every page, find better solution? */
 
 #itemName,
 #price,
@@ -147,4 +149,8 @@ form > button {
 .createItemButton {
     display: block;
     margin-top: 20px;
+}
+
+.tags {
+    display: inline-block;
 }
