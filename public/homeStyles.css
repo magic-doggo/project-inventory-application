@@ -23,6 +23,26 @@ body > div {
     color: #a0c4ff;
 }
 
+
+.title-and-links {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px;
+}
+
+.nav-links {
+    align-content: center;
+    font-size: larger;
+}
+
+nav {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid black;
+}
+
+/* above is duplicate code for every page, find better solution? */
+
 #item-list {
     position: absolute;
     border: 1px solid black;
@@ -65,23 +85,6 @@ body > div {
     text-overflow: ellipsis; 
 }
 
-.title-and-links {
-    display: flex;
-    justify-content: space-between;
-    margin: 20px;
-}
-
-.nav-links {
-    align-content: center;
-    font-size: larger;
-}
-
-nav {
-    display: flex;
-    flex-direction: column;
-    border-bottom: 1px solid black;
-}
-
 #search-items-form {
     display: flex;
     justify-self: center;
@@ -92,19 +95,6 @@ nav {
 #search-items {
     width: 300px;
 }
-
-/* #item-list>a>div>img {
-    display: block;
-    margin: auto;
-    width: 98%;
-} */
-
-/* above is duplicate code for every page, find better solution? */
-
-
-
-
-
 
 .tags {
     display: inline-block;
