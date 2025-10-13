@@ -111,6 +111,10 @@ nav {
     display: flex;
 }
 
+.itemContainer > img {
+    max-width: 64px;
+}
+
 .item-name-price {
     display: flex;
     flex-direction: column;

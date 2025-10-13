@@ -4,50 +4,58 @@
   <title>
     <%= item.name %>
   </title>
-  <!-- <link rel="stylesheet" href="/styles.css"> -->
+  <link rel="stylesheet" href="/itemStyles.css">
 </head>
 
 <body>
   <%- include("partials/navbar") %>
-    <div>
-      <img src="<%= item.image_url %>" alt="">
-      <div>
+    <div class="item-details">
+      <h2>
         <%= item.name %>
+      </h2>
+      <div class="item-icon">
+        <img src="<%= item.image_url %>" alt="">
       </div>
-      <div>
+      <div class="item-price">
         <%= item.price %> gold
       </div>
-      <div>
+      <div class="tags-container">
         <span>Tags: </span>
-        <% if (tags) {%>
+        <% if (tags && tags.length > 0) {%>
           <% for (let tag of tags) { %>
             <a href="../?tag=<%= tag.name %>">
               <%= tag.name %>
             </a>
             <% }; %>
+            <% } else { %>
+             <span class="no-tags">This item does not have any tags</span>
               <% } %>
       </div>
 
-      <div>
-        <span>Item components: </span>
+      <div>Item components: </div>
+      <div class="item-components">
         <% if (components && components.length> 0) {%>
           <% for (let component of components) { %>
-            <div>
+            <div class="component-details">
+              <img src="<%= component.image_url %>" alt="<%= component.name%> icon">
               <a href="../item/<%= component.id %>">
                 <%= component.name %>
               </a>
               <div>
                 <%= component.price %> gold
               </div>
-              <img src="<%= component.image_url %>" alt="">
             </div>
             <% }; %>
               <% } else { %>
                 <div> This is a base item, there are no smaller components.</div>
                 <% } %>
       </div>
-      <button id="delete-button" data-id="<%=item.id%>">Delete Item</button>
     </div>
+    <div class="delete-item-container">
+      <div>Delete item</div><span>This action will permanently delete the item, and cannot be undone!</span>
+      <button id="delete-button" data-id="<%=item.id%>">Delete this item</button>
+    </div>
+
     <script>
       document.getElementById("delete-button").addEventListener("click", async function () {
         const confirmed = confirm("Delete Item Permanently?");

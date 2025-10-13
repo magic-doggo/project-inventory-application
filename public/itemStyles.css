@@ -1,0 +1,117 @@
+body {
+    margin: 0;
+    color: #2b313d;
+}
+
+body > div {
+    margin: 20px;
+}
+
+.header {
+    background-color: #2b313d;
+    color: white;
+    /* text-decoration: none; */
+}
+
+.nav-links>a {
+    text-decoration: none;
+    color: white;
+    margin-left: 26px;
+}
+
+.nav-links > a:hover {
+    color: #a0c4ff;
+}
+
+
+.title-and-links {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px;
+}
+
+.nav-links {
+    align-content: center;
+    font-size: larger;
+}
+
+nav {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid black;
+}
+
+/* above is duplicate style for header */
+
+.item-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: larger;
+    gap: 8px;
+}
+
+.item-price {
+    font-weight: bold;
+}
+
+.tags-container > a {
+    margin-right: 4px;
+}
+
+a {
+    text-decoration: none;
+}
+
+.item-icon > img {
+    max-width: 200px;
+    min-width: 120px;
+}
+
+.item-components {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.component-details {
+    display: flex;
+    flex-direction: column;
+    min-width: 170px;
+    align-items: center;
+}
+
+.component-details > img {
+    max-width: 100px;
+}
+
+.delete-item-container {
+    color: red;
+    font-size: large;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+}
+
+.delete-item-container > span {
+    color: black;
+    font-size: medium;
+    font-weight: 400;
+}
+
+.delete-item-container > button {
+    color: red;
+    border-radius: 6px;
+    background-color: rgb(223, 223, 223);
+    padding: 10px 12px;
+    border-width: 0;
+    font-size: 14px;
+    max-width: 140px;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.delete-item-container > button:hover {
+  background-color: rgb(199, 199, 199);
+  transition-duration: 0.1s;
+}
