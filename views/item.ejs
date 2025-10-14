@@ -58,24 +58,43 @@
 
     <script>
       document.getElementById("delete-button").addEventListener("click", async function () {
+        // temporary password placeholder until curriculum reaches 
+        const password = prompt("enter a password to approve deletion");
+        if (!password) {
+          alert("no password provided")
+          return;
+        }
         const confirmed = confirm("Delete Item Permanently?");
         const itemId = this.getAttribute("data-id");
         console.log(itemId, " itemid")
         if (!confirmed) return;
         try {
           const response = await fetch(`/item/${itemId}`, {
-            method: "DELETE"
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({password: password})
           });
           if (response.ok) {
             alert("item deleted");
-            window.location.href = "/"; // Redirect to homepage or wherever you want
+            window.location.href = "/"; // redirect to homepage
           } else {
-            alert("error deleting item");
+            let errorMessage = "unknown error"
+
+            try {
+              const errorData = await response.json();
+              errorMessage = errorData.message || `Error Status ${response.status} :  ${errorMessage}`
+            } catch (jsonError) {
+              errorMessage = `Server error: Status ${response.status}`
+            }
+
+            alert(errorMessage);
           }
 
         } catch (error) {
-          console.log("error deleting ", error);
-          alert("An error occurred."); //
+          console.log("error deleting item", error);
+          alert("An error occurred ."); //
         }
       })
     </script>

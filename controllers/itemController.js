@@ -96,13 +96,16 @@ async function deleteTags(req, res) {
 
 async function deleteItem(req, res){
     const itemId = req.params.itemId;
-    console.log(req.params, " req.params")
-    console.log(itemId, " controller itemid");
+    // console.log(itemId, " controller itemid");
+    // console.log(req.body, "req.body");
+    //temporary manual password until until curriculum reaches creation of user accounts
+    if (req.body.password !== 'password') return res.status(401).json({message: "Incorrect password"});
     try {
         await db.deleteItem(itemId);
         res.status(200).send("item deleted");
     } catch (err) {
         console.log(err);
+        console.log("pasta")
         res.status(500).send("error deleting item")
     }
 }

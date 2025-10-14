@@ -68,7 +68,9 @@ async function createNewItem(item) {
             await pool.query("INSERT INTO item_components(item_id, item_component_id) VALUES ($1, $2)", [item.id, component.id])
         }
     }
-}
+} //!!!!!!!!check issues occurring sometimes, cannot read 'id' in tagId = tagRows.rows[0].id
+//does not stop item from creating, but disconnects node. it creates item without tags/components?
+
 
 async function getNextItemId() {
     const res = await pool.query("SELECT MAX(id) as id from lol_items WHERE id >= 1000000");
