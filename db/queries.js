@@ -53,6 +53,7 @@ async function getItemsByName(name) {
 async function createNewItem(item) {
     await pool.query("INSERT INTO lol_items(id, name, price, image_url, normalStoreItemBool) VALUES($1, $2, $3, $4, $5)", [item.id, item.name, item.price, item.image_url, true])
     if (item.tags && item.tags.length > 0) {
+        console.log(item.tags)
         for (let tag of item.tags) {
             // console.log("tag:", tag)
             // await pool.query("INSERT  INTO item_tags (item_id, item_tag) VALUES($1, $2)", [item.id, tag]);

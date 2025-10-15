@@ -49,21 +49,26 @@ async function searchItemComponents(req, res) {
     res.json(result)
 }
 
-async function createNewItem(req, res) { //fix issue where it does not render item components until after refresh
+async function createNewItem(req, res) {
     const { itemName, price, image_url, tag, components } = req.body;
     let id = await db.getNextItemId();
     // console.log("components: ", components)
     let itemComponentsArray = [];
+    let itemTagsArray = [];
     if (components && components.length > 0) {
-       itemComponentsArray = JSON.parse(components)
+       itemComponentsArray = JSON.parse(components);
     }
+    if (tag && tag.length > 0) {
+        itemTagsArray = Array.isArray(tag) ? tag : [tag]
+    }
+
     const item = {
         id: id,
         name: itemName,
         price: price,
         image_url: image_url,
         itemComponents: itemComponentsArray,
-        tags: tag
+        tags: itemTagsArray
     }
     // push the item to the db and then redirect to the created item page
     await db.createNewItem(item)
