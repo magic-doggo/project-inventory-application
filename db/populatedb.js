@@ -57,11 +57,13 @@ CREATE TABLE IF NOT EXISTS item_tags (
 );
 `
 
-
 async function main() {
   console.log("seeding...");
   const client = new Client({
-    connectionString: `postgresql://${process.env.user}:${process.env.password}@localhost:5432/lol_items`,
+    connectionString: process.env.EXTERNAL_DB_URL,
+    ssl: {
+      require: true, //why did this fix "read ECONNRESET"? discord suggestion
+    }
   });
   await client.connect();
   await client.query(SQL);
