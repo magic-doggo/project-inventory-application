@@ -63,6 +63,7 @@ async function main() {
     connectionString: process.env.EXTERNAL_DB_URL,
     ssl: {
       require: true, //why did this fix "read ECONNRESET"? discord suggestion
+      rejectUnauthorized: false
     }
   });
   await client.connect();
