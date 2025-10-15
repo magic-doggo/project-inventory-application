@@ -52,8 +52,9 @@ async function getItemsByName(name) {
 
 async function createNewItem(item) {
     await pool.query("INSERT INTO lol_items(id, name, price, image_url, normalStoreItemBool) VALUES($1, $2, $3, $4, $5)", [item.id, item.name, item.price, item.image_url, true])
-    if (item.tags) {
+    if (item.tags && item.tags.length > 0) {
         for (let tag of item.tags) {
+            // console.log("tag:", tag)
             // await pool.query("INSERT  INTO item_tags (item_id, item_tag) VALUES($1, $2)", [item.id, tag]);
             // add logic in case tag does not exist? though it should not happen
             let tagRows = await pool.query(`SELECT id 
@@ -63,14 +64,12 @@ async function createNewItem(item) {
             await pool.query(`INSERT INTO item_tags (item_id, tag_id) VALUES ($1, $2)`, [item.id, tagId]);
         }
     }
-    if (item.itemComponents) {
-        for (component of item.itemComponents) {
+    if (item.itemComponents && item.itemComponents.length > 0) {
+        for (let component of item.itemComponents) {
             await pool.query("INSERT INTO item_components(item_id, item_component_id) VALUES ($1, $2)", [item.id, component.id])
         }
     }
-} //!!!!!!!!check issues occurring sometimes, cannot read 'id' in tagId = tagRows.rows[0].id
-//does not stop item from creating, but disconnects node. it creates item without tags/components?
-
+}
 
 async function getNextItemId() {
     const res = await pool.query("SELECT MAX(id) as id from lol_items WHERE id >= 1000000");
