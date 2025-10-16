@@ -145,3 +145,9 @@ form > button {
 .tags {
     display: inline-block;
 }
+
+.image-example-url {
+    font-size: 14;
+    color: gray;
+    margin-top: 0;
+}
